@@ -1,7 +1,6 @@
 // App.tsx
 import React, { useState, useEffect } from 'react';
 import ReleaseList from './components/HistoryList/HistoryList';
-import ReleaseDetail from './components/ReleaseOverview/ReleaseDetail';
 import NewReleaseForm from './components/NewReleaseForm';
 import { getReleases, createRelease } from './services/apiService';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -50,7 +49,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="container my-4">
+    <div className="container">
       <div className="row">
         {/* Venstre side (Liste) */}
         <div className="col-md-3">

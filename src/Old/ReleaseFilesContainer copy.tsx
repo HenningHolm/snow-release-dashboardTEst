@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import FileCategoryContainer from "./FileCategoryContainer";
 
 interface Release {
     id: string;
@@ -7,7 +8,7 @@ interface Release {
     // Andre relevante felter
   }
   
-  interface ReleaseDetailProps {
+  interface ReleaseFilesProps {
     release: Release;
   }
 
@@ -18,6 +19,13 @@ interface Release {
     baseUrl: string;
     version: number;
   }
+
+  const FileArray = [
+    "Norsk Ekstensjon",
+    "LM",
+    "ICN",
+    "FD"
+  ]
   
   const initialReleaseData: ReleaseData = {
     date: '20240915',
@@ -27,7 +35,7 @@ interface Release {
     version: 20241115,
   };
   
-const ReleaseFileContainer: React.FC<ReleaseDetailProps> = ({ release}) => {
+const ReleaseFilesContainer: React.FC<ReleaseFilesProps> = ({ release}) => {
 const [releaseData, setReleaseData] = useState<ReleaseData>(initialReleaseData);
 const [blobs, setBlobs] = useState<string[]>([]);
 const [loadingBlobs, setLoadingBlobs] = useState<boolean>(true);
@@ -64,17 +72,26 @@ useEffect(() => {
   };
   return (
 <div className="card p-3">
-<h3>Filer i denne releasen</h3>
+<h5>Filer i denne releasen</h5>
 {loadingBlobs ? (
   <p>Laster inn filer...</p>
 ) : (
   <div className="d-flex row justify-content-evenly">
-    {blobs.map((blobName) => (
+    {FileArray.map((blobName) => (
+      <>
+      <FileCategoryContainer key={blobName} fileCategory={blobName} />
       <div key={blobName} className="col-md-5 m-3 bg-secondary rounded">
         <h5 className="m-3 text-white">{blobName}</h5>
         <div className="status-indicator" />
       </div>
+      </>
     ))}
+    {/* {blobs.map((blobName) => (
+      <div key={blobName} className="col-md-5 m-3 bg-secondary rounded">
+        <h5 className="m-3 text-white">{blobName}</h5>
+        <div className="status-indicator" />
+      </div>
+    ))} */}
   </div>
 )}
 <div className="action-buttons">
@@ -88,4 +105,4 @@ useEffect(() => {
 </div>
 )}
 
-export default ReleaseFileContainer;
+export default ReleaseFilesContainer;

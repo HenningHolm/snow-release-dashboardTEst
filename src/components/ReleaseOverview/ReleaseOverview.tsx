@@ -1,5 +1,6 @@
 import React, { useState} from 'react';
-import ReleaseFileContainer from './ReleaseFileContainer/ReleaseFileContainer';
+import ReleaseFilesContainer from './ReleaseFileContainer/ReleaseFilesContainer';
+import ReleaseEnvironmentFolder from './ReleaseEnvironmentFolder/ReleaseEnvironmentFolder';
 
 interface ReleaseData {
   date: string;
@@ -42,11 +43,11 @@ interface Release {
   // Andre relevante felter
 }
 
-interface ReleaseDetailProps {
+interface ReleaseOverviewProps {
   release: Release;
 }
 
-const ReleaseDetail: React.FC<ReleaseDetailProps> = ({ release}) => {
+const ReleaseOverview: React.FC<ReleaseOverviewProps> = ({ release}) => {
   const [releaseData, setReleaseData] = useState<ReleaseData>(initialReleaseData);
   const [runs, setRuns] = useState<Run[]>([]);
 
@@ -58,76 +59,16 @@ const ReleaseDetail: React.FC<ReleaseDetailProps> = ({ release}) => {
   };
 
   return (
-    <div className="container card p-4">
+      <div className="container bg-white card p-4">
+        <h3>Release {release.versionName}</h3>
+    <ReleaseEnvironmentFolder/>
 
-      <h3>Release {release.versionName}</h3>
 
-    <ReleaseFileContainer release={release} />
+    <ReleaseFilesContainer release={release} />
 
-      <div className="inputs-section">
-        <h3>Inputs</h3>
-        <div className="input-grid">
-          <div className="input-group">
-            <label htmlFor="date">Versjon</label>
-            <input
-              type="text"
-              id="date"
-              value={releaseData.date}
-              onChange={(e) => setReleaseData({ ...releaseData, date: e.target.value })}
-              placeholder="YYYYMMDD"
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="branch">Velg SNOMEDCT-NO pakke</label>
-            <select
-              id="branch"
-              value={releaseData.branch}
-              onChange={(e) => setReleaseData({ ...releaseData, branch: e.target.value })}
-            >
-              {branches.map((branch) => (
-                <option key={branch.name} value={branch.name}>
-                  {branch.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </div>
 
-      <div className="environments-section">
-        <div className="environments-grid">
-          {environments.map((env) => (
-            <div key={env.name} className="environment-box">
-              <h3>{env.name}</h3>
-              <div className="environment-buttons">
-                <button onClick={() => runTest(env.name, 'full')} className="small">
-                  Full
-                </button>
-                <button onClick={() => runTest(env.name, 'smoke')} className="small secondary">
-                  Smoke
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-        <br />
-        <button className="start-release" >Start Release</button>
-      </div>
-
-      <div className="runs-section">
-        <h3>Runs</h3>
-        <div className="runs-list">
-          {runs.map((run, index) => (
-            <div key={index} className="run-item">
-              <span className="timestamp">{new Date(run.timestamp).toLocaleString()}</span>
-              <span className="action">{run.action}</span>
-              <span className="status">{run.status}</span>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 };
 
-export default ReleaseDetail;
+export default ReleaseOverview;
