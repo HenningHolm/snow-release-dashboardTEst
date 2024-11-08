@@ -14,6 +14,7 @@ const NewReleaseForm: React.FC<NewReleaseFormProps> = ({ onCreateRelease, onCanc
   };
 
   return (
+    <div className='card p-3 h-100'>
     <form onSubmit={handleSubmit}>
       <h2>Opprett Ny Release</h2>
       <div>
@@ -28,6 +29,7 @@ const NewReleaseForm: React.FC<NewReleaseFormProps> = ({ onCreateRelease, onCanc
       <button type="submit">Opprett</button>
       <button type="button" onClick={onCancel}>Avbryt</button>
     </form>
+    </div>
   );
 };
 
