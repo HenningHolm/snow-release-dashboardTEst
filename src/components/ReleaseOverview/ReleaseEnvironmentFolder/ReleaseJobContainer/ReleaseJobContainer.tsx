@@ -18,16 +18,16 @@ const ReleaseJobContainer: React.FC<ReleaseJobContainerProps> = ({ environment }
         <div className="col-4"></div>
         <div className="col-4">
           <button
-            className={`btn ${isHistorical ? "btn-outline-light" : "btn-primary"} me-2`}
-            onClick={() => setIsHistorical(false)}
-          >
-            Ny jobb
-          </button>
-          <button
-            className={`btn ${isHistorical ? "btn-primary" : "btn-outline-light"}`}
+            className={`btn ${isHistorical ? "btn-primary" : "btn-outline-light"} me-2`}
             onClick={() => setIsHistorical(true)}
           >
-            Historiske
+            Historiske jobber
+          </button>
+          <button
+            className={`btn ${isHistorical ? "btn-outline-light" : "btn-primary"}`}
+            onClick={() => setIsHistorical(false)}
+          >
+            + Ny jobb
           </button>
         </div>
       </div>

@@ -26,13 +26,13 @@ const ReleaseFilesContainer = () => {
         <div className="d-flex flex-row justify-content-between">
           {/* 'Norsk Ekstensjon' er plassert alene */}
           <div className="flex-grow-1 me-4">
-            <FileCategoryContainer fileCategory="Norsk Ekstensjon" />
+            <FileCategoryContainer derivat={false} fileCategory="Norsk Ekstensjon" />
           </div>
 
           {/* Resten av filkategoriene i en separat flexbox */}
           <div className="d-flex flex-row flex-wrap gap-3">
             {FileArray.slice(1).map((blobName) => (
-              <FileCategoryContainer key={blobName} fileCategory={blobName} />
+              <FileCategoryContainer key={blobName} derivat={true} fileCategory={blobName} />
             ))}
           </div>
         </div>

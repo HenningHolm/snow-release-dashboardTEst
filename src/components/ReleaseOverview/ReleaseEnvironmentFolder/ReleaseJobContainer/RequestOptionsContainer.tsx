@@ -39,13 +39,13 @@ const RequestOptionsContainer: React.FC<RequestOptionsProps> = ({ isHistorical }
                 <div className="col-6 mb-2">
                     <div className="form-check">
                         <input className="form-check-input" type="checkbox" disabled={isHistorical} />
-                        <label className="form-check-label">Norske ekstensjon</label>
+                        <label className="form-check-label text-white">Norske ekstensjon</label>
                     </div>
                 </div>
                 <div className="col-6 mb-2">
                     <div className="form-check">
                         <input className="form-check-input" type="checkbox" disabled={isHistorical} />
-                        <label className="form-check-label">LM - Derivat</label>
+                        <label className="form-check-label text-white">LM - derivat</label>
                     </div>
                 </div>
             </div>
@@ -53,13 +53,13 @@ const RequestOptionsContainer: React.FC<RequestOptionsProps> = ({ isHistorical }
                 <div className="col-6 mb-1">
                     <div className="form-check">
                         <input className="form-check-input" type="checkbox" disabled={isHistorical} />
-                        <label className="form-check-label">INC - Derivat</label>
+                        <label className="form-check-label text-white">INC - derivat</label>
                     </div>
                 </div>
                 <div className="col-6 mb-1">
                     <div className="form-check">
                         <input className="form-check-input" type="checkbox" disabled={isHistorical} />
-                        <label className="form-check-label">FD - Derivat</label>
+                        <label className="form-check-label text-white">FD - derivat</label>
                     </div>
                 </div>
             </div>
