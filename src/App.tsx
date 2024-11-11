@@ -1,8 +1,8 @@
 // App.tsx
 import React, { useState, useEffect } from 'react';
-import ReleaseList from './components/HistoryList/HistoryList';
+import HistoyList from './components/HistoryList/HistoryList';
 import NewReleaseForm from './components/NewReleaseForm';
-import { getReleases, createRelease } from './services/apiService';
+import { createRelease, getReleases } from './services/apiService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReleaseOverview from './components/ReleaseOverview/ReleaseOverview';
 interface Release {
@@ -13,7 +13,7 @@ interface Release {
 
 const App: React.FC = () => {
   const [releases, setReleases] = useState<Release[]>([]);
-  const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
+  const [selectedReleaseId, setSelectedReleaseId] = useState<string | null>(null);
   const [currentView, setCurrentView] = useState<'releaseDetail' | 'newRelease'>('releaseDetail');
 
   useEffect(() => {
@@ -21,30 +21,33 @@ const App: React.FC = () => {
       const data = await getReleases();
       setReleases(data);
       if (data.length > 0) {
-        setSelectedRelease(data[0]);
+        setSelectedReleaseId(data[0].id);
       }
     };
     fetchData();
   }, []);
 
   const handleReleaseSelect = (release: Release) => {
-    setSelectedRelease(release);
+    setSelectedReleaseId(release.id);
     setCurrentView('releaseDetail');
   };
 
   const handleNewReleaseClick = () => {
-    setSelectedRelease(null); // Fjern markering av valgt release
+    setSelectedReleaseId(null); // Fjern markering av valgt release
     setCurrentView('newRelease');
   };
 
   const handleReleaseCreate = async (versionName: string) => {
-    // ... (opprettelse av ny release)
+    const newRelease = await createRelease(versionName);
+    setReleases([...releases, newRelease]); // Legg til ny release i listen
+    setSelectedReleaseId(newRelease.id); // Velg ny release
+    setCurrentView('releaseDetail'); // Bytt til detaljvisning
   };
 
   const handleBackToList = () => {
     setCurrentView('releaseDetail');
     if (releases.length > 0) {
-      setSelectedRelease(releases[0]);
+      setSelectedReleaseId(releases[0].id);
     }
   };
 
@@ -53,18 +56,18 @@ const App: React.FC = () => {
       <div className="row">
         {/* Venstre side (Liste) */}
         <div className="col-md-3">
-          <ReleaseList
+          <HistoyList
             releases={releases}
             onSelectRelease={handleReleaseSelect}
             onNewRelease={handleNewReleaseClick}
-            selectedRelease={selectedRelease}
+            selectedReleaseId={selectedReleaseId}
             currentView={currentView}
           />
         </div>
         {/* Høyre side (Detaljer eller Ny Release) */}
         <div className="col-md-9">
-          {currentView === 'releaseDetail' && selectedRelease && (
-            <ReleaseOverview release={selectedRelease} />
+          {currentView === 'releaseDetail' && selectedReleaseId && (
+            <ReleaseOverview releaseId={selectedReleaseId} />
           )}
           {currentView === 'newRelease' && (
             <NewReleaseForm onCreateRelease={handleReleaseCreate} onCancel={handleBackToList} />
@@ -74,6 +77,5 @@ const App: React.FC = () => {
     </div>
   );
 };
-
 
 export default App;

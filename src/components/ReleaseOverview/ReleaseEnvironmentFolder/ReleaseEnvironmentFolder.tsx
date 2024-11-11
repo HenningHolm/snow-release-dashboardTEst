@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReleaseJobContainer from "./ReleaseJobContainer/ReleaseJobContainer";
+import { ReleaseIdProps } from "../../../types/commonTypes";
+import { getReleaseData } from "../../../services/apiService";
+
 
 const environment = [
   "DailyBuild",
@@ -9,9 +12,10 @@ const environment = [
   "Prod"
 ];
 
-const ReleaseEnvironmentFolder: React.FC = () => {
+const ReleaseEnvironmentFolder: React.FC<ReleaseIdProps> = ({ releaseId }) => {
   // Holder styr på hvilket miljø som er aktivt
   const [activeEnv, setActiveEnv] = useState(environment[0]);
+
 
   return (
     <div className="container my-1 p-0 rounded">

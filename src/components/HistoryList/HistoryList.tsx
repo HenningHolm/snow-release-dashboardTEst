@@ -1,42 +1,40 @@
-// ReleaseList.tsx
+// HistoryList.tsx
 import React from 'react';
 
 interface Release {
   id: string;
   versionName: string;
-  // Andre relevante felter
 }
 
 interface ReleaseListProps {
   releases: Release[];
   onSelectRelease: (release: Release) => void;
   onNewRelease: () => void;
-  selectedRelease: Release | null;
+  selectedReleaseId: string | null;
   currentView: 'releaseDetail' | 'newRelease';
 }
 
-const ReleaseList: React.FC<ReleaseListProps> = ({
+const HistoryList: React.FC<ReleaseListProps> = ({
   releases,
   onSelectRelease,
   onNewRelease,
-  selectedRelease,
+  selectedReleaseId,
   currentView,
 }) => {
   return (
     <div className='card p-3 d-flex flex-column justify-content-between'>
-
       <div className="list-group">
-      <h5>Releaseversjoner:</h5>
+        <h5>Releaseversjoner:</h5>
         {releases.map((release, i) => (
           <button
             key={release.id}
             type="button"
             className={`list-group-item list-group-item-action ${
-              selectedRelease && selectedRelease.id === release.id ? 'active' : ''
+              selectedReleaseId === release.id ? 'active' : ''
             }`}
             onClick={() => onSelectRelease(release)}
           >
-            {release.versionName} { i === 0 ? ' - Gyldig' : '- Utgått' }
+            {release.versionName} {i === 0 ? ' - Gyldig' : '- Utgått'}
           </button>
         ))}
       </div>
@@ -53,4 +51,4 @@ const ReleaseList: React.FC<ReleaseListProps> = ({
   );
 };
 
-export default ReleaseList;
+export default HistoryList;

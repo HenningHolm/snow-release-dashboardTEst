@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import FileCategoryContainer from "./FileCategoryContainer";
+import { ReleaseIdProps } from "../../../types/commonTypes";
 
 const FileArray = [
   "Norsk Ekstensjon",
@@ -9,7 +10,8 @@ const FileArray = [
   "FD"
 ];
 
-const ReleaseFilesContainer = () => {
+
+const ReleaseFilesContainer : React.FC<ReleaseIdProps> = ({ releaseId }) => {
   const [loadingBlobs, setLoadingBlobs] = useState<boolean>(true);
 
   useEffect(() => {

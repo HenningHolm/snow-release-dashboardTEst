@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createRelease } from '../services/apiService';
 
 interface NewReleaseFormProps {
   onCreateRelease: (versionName: string) => void;
@@ -8,9 +9,10 @@ interface NewReleaseFormProps {
 const NewReleaseForm: React.FC<NewReleaseFormProps> = ({ onCreateRelease, onCancel }) => {
   const [versionName, setVersionName] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onCreateRelease(versionName);
+    await onCreateRelease(versionName); // Kall funksjonen som faktisk oppretter release
+    setVersionName(''); // Tilbakestill inputfeltet etter opprettelse
   };
 
   return (
