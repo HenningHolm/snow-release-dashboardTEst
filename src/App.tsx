@@ -4,6 +4,7 @@ import NewReleaseForm from './components/NewReleaseForm';
 import { createRelease, getBlobContent, getReleases } from './services/apiService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReleaseOverview from './components/ReleaseOverview/ReleaseOverview';
+import ReleaseStepView from './components/ReleaseStepView/ReleaseStepView';
 
 interface Release {
   id: string;
@@ -85,14 +86,18 @@ const App: React.FC = () => {
             currentView={currentView}
           />
         </div>
-        <div className="col-md-9">
+        <div className='col-md-9'>
+        <ReleaseStepView releaseId={selectedReleaseId}/>
+        </div>
+        {/* <div className="col-md-9">
           {currentView === 'releaseDetail' && selectedReleaseId && (
             <ReleaseOverview releaseId={selectedReleaseId} />
           )}
           {currentView === 'newRelease' && (
             <NewReleaseForm onCreateRelease={handleReleaseCreate} onCancel={handleBackToList} />
           )}
-        </div>
+        </div> */}
+      
       </div>
     </div>
   );

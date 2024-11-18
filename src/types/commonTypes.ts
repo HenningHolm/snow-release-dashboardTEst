@@ -1,3 +1,3 @@
 export interface ReleaseIdProps {
-    releaseId: string;
+    releaseId: string | null;
   }
