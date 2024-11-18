@@ -51,6 +51,7 @@ export const getBlobContent = async (containerName : string, blobName : string) 
   if (!response.ok) {
     throw new Error(`Feil ved henting av JSON-fil: ${response.statusText}`);
   }
+  console.log("response", response);
 
   return await response.json();
 };

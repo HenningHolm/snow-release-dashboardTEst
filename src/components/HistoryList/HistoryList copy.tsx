@@ -26,7 +26,7 @@ const HistoryList: React.FC<ReleaseListProps> = ({
     <div className='card p-3 d-flex flex-column justify-content-between'>
       <div className="list-group">
         <h5>Releaseversjoner:</h5>
-        {releases.map((release, i) => (
+        {releases.map((release) => (
           <button
             key={release.id}
             type="button"
@@ -35,7 +35,7 @@ const HistoryList: React.FC<ReleaseListProps> = ({
             }`}
             onClick={() => onSelectRelease(release)}
           >
-            {release.versionName} {i === 0 ? ' - Gyldig' : '- Utgått'}
+            {release.versionName} - {release.state}
           </button>
         ))}
       </div>

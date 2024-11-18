@@ -16,9 +16,9 @@ const ReleaseEnvironmentFolder: React.FC<ReleaseIdProps> = ({ releaseId }) => {
 
 
   return (
-    <div className="container p-3 bg-dark rounded">
-      <h4 className="mb-4 text-white">Miljø</h4>
-    <div className="container my-1 p-0 rounded">
+    <div className="container text-white p-3 bg-dark rounded">
+      <h4 className="mb-4 ">Miljø</h4>
+    <div className="container my-1 p-0 rounded text-black">
       <ul className="nav nav-tabs ">
         {environment.map((env) => (
           <li className="nav-item secondary" key={env}>

@@ -21,26 +21,18 @@ const FileCategoryContainer: React.FC<FileCategoryProps> = ({ fileCategory, deri
             <button className="btn btn-dark w-100 mb-2">Last ned</button>
             <button className="btn btn-dark w-100">Slett</button>
           </div>
-          </div>
-          <div className="col-4 card bg-light">
-          <div className="d-flex justify-content-between align-items-center">
-            <h6 className="card-title mb-0">
-              Generte {fileCategory} filer
-            </h6>
-          </div>
-          <div className="mt-3 card bg-light">
-        
-          </div>
         </div>
         <div className="col-4 card bg-light">
-        <div className="d-flex justify-content-between align-items-center">
-            <h6 className="card-title mb-0">
-              Generingslogg
-            </h6>
+          <div className="d-flex justify-content-between align-items-center">
+            <h6 className="card-title mb-0">Generte {fileCategory} filer</h6>
           </div>
-          <div className="mt-3 card bg-light">
-
+          <div className="mt-3 card bg-light"></div>
+        </div>
+        <div className="col-4 card bg-light">
+          <div className="d-flex justify-content-between align-items-center">
+            <h6 className="card-title mb-0">Generingslogg</h6>
           </div>
+          <div className="mt-3 card bg-light"></div>
         </div>
       </div>
     </div>
