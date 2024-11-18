@@ -1,3 +1,10 @@
 export interface ReleaseIdProps {
-    releaseId: string | null;
+    releaseId: number | undefined;
   }
+
+export interface Release {
+  id: number;
+  blobs: string[];
+  state: string;
+}
+  

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import RequestOptionsContainer from "./RequestOptionsContainer";
+import RequestOptionsContainer from "../Step4/RequestOptionsContainer";
 import ReleaseLogContainer from "./ReleaseLogContainer";
 
 interface ReleaseJobContainerProps {
@@ -15,17 +15,10 @@ const ReleaseJobContainer: React.FC<ReleaseJobContainerProps> = ({ environment, 
   return (
     <div className=" p-3 bg-light border border-1 container">
       <div className="row mb-3">
-        <div className="col-8">
-          <h4>Release - {environment} {isHistorical ? "(Historisk)" : ""}</h4>
+        <div className="col-10">
+          <h4>Smoketest - {environment} {isHistorical ? "(Historisk)" : ""}</h4>
         </div>
-        {/* <div className="col-4"></div> */}
-        <div className="col-4">
-          <button
-            className={`btn ${isHistorical ? "btn-primary" : "btn-secondary"} me-2`}
-            onClick={() => setIsHistorical(true)}
-          >
-            Historiske jobber
-          </button>
+        <div className="col-2">
           <button
             className={`btn ${isHistorical ? "btn-secondary" : "btn-primary"}`}
             onClick={() => setIsHistorical(false)}

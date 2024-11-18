@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
+import { ReleaseIdProps } from '../../../../types/commonTypes';
 
-function Step2() {
+const StepUploadNorskEks: React.FC<ReleaseIdProps> = ({ releaseId }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   // Function to handle file change
@@ -82,4 +83,4 @@ function Step2() {
   );
 }
 
-export default Step2;
+export default StepUploadNorskEks;

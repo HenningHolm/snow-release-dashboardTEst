@@ -66,7 +66,7 @@ const RequestOptionsContainer: React.FC<RequestOptionsProps> = ({ isHistorical, 
             </div>
             </div>
         </div>
-        <button className="btn btn-success w-100 mt-2" disabled={isHistorical}>Kjør release</button>
+        <button className="btn btn-success w-100 mt-2" disabled={isHistorical}>Utfør Smoketest</button>
     </div>
   );
 };

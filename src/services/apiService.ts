@@ -12,7 +12,8 @@ export const getReleases = async () => {
   }));
 };
 
-export const createRelease = async (versionName: string) : Promise<{containerName: string | undefined }> => {
+
+export const createRelease = async (versionName: number) : Promise<{containerId: number | undefined }> => {
   try {
     const response = await fetch(`${API_BASE_URL}/createContainer`, {
       method: 'POST',
@@ -31,17 +32,17 @@ export const createRelease = async (versionName: string) : Promise<{containerNam
     const data = await response.json();
     console.log("data api service", data);
     return {
-      containerName: data.containerName
+      containerId: data.containerName
     };
   } catch (error) {
     console.error("Fetch error:", error);
-    return {containerName: undefined};
+    return {containerId: undefined};
   }
 }
 
 
-export const getBlobContent = async (containerName : string, blobName : string) => {
-  const response = await fetch(`${API_BASE_URL}/getBlobContent?containerName=${containerName}&blobName=${blobName}`, {
+export const getBlobContent = async (containerId : number, blobName : string) => {
+  const response = await fetch(`${API_BASE_URL}/getBlobContent?containerName=${containerId}&blobName=${blobName}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

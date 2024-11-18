@@ -1,0 +1,98 @@
+{
+    "version": "20240815",
+    "timeCreated": "2023-08-30T15:00:00Z",
+    "status": "CREATED",
+
+    "norskEkstensjon": [
+        {
+            "id": 1,
+            "fileName": "SnomedCT_ManagedServiceNO_PRODUCTION_NO1000202_20240915T120000Z (6).zip",
+            "selected": true
+        }
+    ],
+    "smokeTest": [
+        {
+            "id": 1,
+            "norskEkstensjonId": 1,
+            "timeExecuted": "2023-08-30T15:00:00Z",
+            "status": "SUCCESS",
+            "logArray": [
+                {
+                    "timestamp": "2023-08-30T15:00:00Z",
+                    "log": "Log message 1 Smoke Test"
+                },
+                {
+                    "timestamp": "2023-08-30T15:00:00Z",
+                    "log": "Log message 2 Smoke Test"
+                },
+                {
+                    "timestamp": "2023-08-30T15:00:00Z",
+                    "log": "Log message 3 Smoke Test"
+                }
+            ]
+        }],
+
+        "generateDerivative": {
+            "LM": [
+                {
+                    "id": 1,
+                    "timeExecuted": "2023-08-30T15:00:00Z",
+                    "selected": true,
+                    "status": "SUCCESS",
+                    "outputFile": "LM-08585258189921908774209033046CU00-20240815.zip",
+                    "logArray": [
+                        {
+                            "timestamp": "2023-08-30T15:00:00Z",
+                            "log": "Log message 1"
+                        },
+                        {
+                            "timestamp": "2023-08-30T15:00:00Z",
+                            "log": "Log message 2"
+                        },
+                        {
+                            "timestamp": "2023-08-30T15:00:00Z",
+                            "log": "Log message 3"
+                        }
+                    ]
+                }
+            ],
+            "INC": [
+                {
+                    "id": 1,
+                    "timeExecuted": "2023-08-30T15:00:00Z",
+                    "selected": true,
+                    "status": "SUCCESS",
+                    "outputFile": "INC-08585258189921908774209033046CU00-20240815.zip",
+                    "logArray": [
+                        {
+                            "timestamp": "2023-08-30T15:00:00Z",
+                            "log": "Log message 1, INC"
+                        },
+                        {
+                            "timestamp": "2023-08-30T15:00:00Z",
+                            "log": "Log message 2, INC"
+                        }
+                    ]
+                }
+            ],
+            "FD": [
+                {
+                    "id": 1,
+                    "timeExecuted": "2023-08-30T15:00:00Z",
+                    "selected": true,
+                    "status": "SUCCESS",
+                    "outputFile": "FD-08585258189921908774209033046CU00-20240815.zip",
+                    "logArray": [
+                        {
+                            "timestamp": "2023-08-30T15:00:00Z",
+                            "log": "Log message 1, FD"
+                        },
+                        {
+                            "timestamp": "2023-08-30T15:00:00Z",
+                            "log": "Log message 2, FD"
+                        }
+                    ]
+                }
+            ]
+        }
+}

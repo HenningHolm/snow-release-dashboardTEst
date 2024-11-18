@@ -2,8 +2,7 @@
 import React from 'react';
 
 interface Release {
-  id: string;
-  versionName: string;
+  id: number;
   state: string;
 }
 
@@ -11,7 +10,7 @@ interface ReleaseListProps {
   releases: Release[];
   onSelectRelease: (release: Release) => void;
   onNewRelease: () => void;
-  selectedReleaseId: string | null;
+  selectedReleaseId: number | null;
   currentView: 'releaseDetail' | 'newRelease';
 }
 
@@ -35,7 +34,7 @@ const HistoryList: React.FC<ReleaseListProps> = ({
             }`}
             onClick={() => onSelectRelease(release)}
           >
-            {release.versionName} {i === 0 ? ' - Gyldig' : '- Utgått'}
+            {release.id} {i === 0 ? ' - Publisert' : '- Utgått'}
           </button>
         ))}
       </div>
@@ -46,7 +45,7 @@ const HistoryList: React.FC<ReleaseListProps> = ({
         }`}
         onClick={onNewRelease}
       >
-        Opprett ny release
+        Ny release
       </button>
     </div>
   );
