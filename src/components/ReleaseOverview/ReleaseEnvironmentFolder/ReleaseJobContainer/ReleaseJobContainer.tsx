@@ -4,27 +4,30 @@ import ReleaseLogContainer from "./ReleaseLogContainer";
 
 interface ReleaseJobContainerProps {
   environment: string;
+  releaseId: string;
 }
 
-const ReleaseJobContainer: React.FC<ReleaseJobContainerProps> = ({ environment }) => {
+
+
+const ReleaseJobContainer: React.FC<ReleaseJobContainerProps> = ({ environment, releaseId }) => {
   const [isHistorical, setIsHistorical] = useState(false);
 
   return (
-    <div className=" p-3 bg-dark text-white border border-1 container">
+    <div className=" p-3 bg-light border border-1 container">
       <div className="row mb-3">
-        <div className="col-4">
-          <h4>Release - {environment}</h4>
+        <div className="col-8">
+          <h4>Release - {environment} {isHistorical ? "(Historisk)" : ""}</h4>
         </div>
-        <div className="col-4"></div>
+        {/* <div className="col-4"></div> */}
         <div className="col-4">
           <button
-            className={`btn ${isHistorical ? "btn-primary" : "btn-outline-light"} me-2`}
+            className={`btn ${isHistorical ? "btn-primary" : "btn-secondary"} me-2`}
             onClick={() => setIsHistorical(true)}
           >
             Historiske jobber
           </button>
           <button
-            className={`btn ${isHistorical ? "btn-outline-light" : "btn-primary"}`}
+            className={`btn ${isHistorical ? "btn-secondary" : "btn-primary"}`}
             onClick={() => setIsHistorical(false)}
           >
             + Ny jobb
@@ -33,7 +36,7 @@ const ReleaseJobContainer: React.FC<ReleaseJobContainerProps> = ({ environment }
       </div>
         <div className="row">
           <div className="col-8">
-            <RequestOptionsContainer isHistorical={isHistorical} />
+            <RequestOptionsContainer releaseId={releaseId} isHistorical={isHistorical} />
           </div>
           <div className="col-4">
             <ReleaseLogContainer />

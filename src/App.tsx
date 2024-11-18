@@ -2,12 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import HistoyList from './components/HistoryList/HistoryList';
 import NewReleaseForm from './components/NewReleaseForm';
-import { createRelease, getReleases } from './services/apiService';
+import { createRelease, getBlobContent, getReleases } from './services/apiService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReleaseOverview from './components/ReleaseOverview/ReleaseOverview';
 interface Release {
   id: string;
   versionName: string;
+  blobs: string[];
+  state: string;
   // Andre relevante felter
 }
 
@@ -19,13 +21,23 @@ const App: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getReleases();
-      setReleases(data);
+      setReleases(data.reverse());
       if (data.length > 0) {
         setSelectedReleaseId(data[0].id);
       }
     };
     fetchData();
-  }, []);
+
+    const fetchState = async () => {
+      try {
+        const stateData = await getBlobContent("20241015", "state.json");
+        console.log("State data:", stateData);
+      } catch (error) {
+        console.error("Feil ved henting av state.json:", error);
+      }
+    };
+
+  }, [ currentView]);
 
   const handleReleaseSelect = (release: Release) => {
     setSelectedReleaseId(release.id);
@@ -39,9 +51,10 @@ const App: React.FC = () => {
 
   const handleReleaseCreate = async (versionName: string) => {
     const newRelease = await createRelease(versionName);
-    setReleases([...releases, newRelease]); // Legg til ny release i listen
-    setSelectedReleaseId(newRelease.id); // Velg ny release
-    setCurrentView('releaseDetail'); // Bytt til detaljvisning
+    if (newRelease !== undefined) {
+      setCurrentView('releaseDetail');
+      return
+    }
   };
 
   const handleBackToList = () => {

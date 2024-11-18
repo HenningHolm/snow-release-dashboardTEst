@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReleaseJobContainer from "./ReleaseJobContainer/ReleaseJobContainer";
 import { ReleaseIdProps } from "../../../types/commonTypes";
-import { getReleaseData } from "../../../services/apiService";
-
 
 const environment = [
   "DailyBuild",
@@ -18,6 +16,8 @@ const ReleaseEnvironmentFolder: React.FC<ReleaseIdProps> = ({ releaseId }) => {
 
 
   return (
+    <div className="container p-3 bg-dark rounded">
+      <h4 className="mb-4 text-white">Miljø</h4>
     <div className="container my-1 p-0 rounded">
       <ul className="nav nav-tabs ">
         {environment.map((env) => (
@@ -36,7 +36,8 @@ const ReleaseEnvironmentFolder: React.FC<ReleaseIdProps> = ({ releaseId }) => {
         ))}
       </ul>
       {/* Passerer valgt miljø til ReleaseJobContainer */}
-      <ReleaseJobContainer environment={activeEnv} />
+      <ReleaseJobContainer releaseId={releaseId} environment={activeEnv} />
+    </div>
     </div>
   );
 };

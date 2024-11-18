@@ -1,4 +1,4 @@
-import ReleaseFilesFolder from './ReleaseFileContainer/ReleaseFilesFolder';
+import ReleaseFilesFolder from './ReleaseFileFolder/ReleaseFilesFolder';
 import ReleaseEnvironmentFolder from './ReleaseEnvironmentFolder/ReleaseEnvironmentFolder';
 import { ReleaseIdProps } from '../../types/commonTypes';
 
