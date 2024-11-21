@@ -1,30 +1,29 @@
 import React, { useState } from 'react';
 
-interface NewReleaseFormProps {
-  onCreateRelease: (versionName: string) => void;
+interface NewVersionFormProps {
+  onCreateVersion: (versionName: number) => void;
   onCancel: () => void;
 }
 
-const NewReleaseForm: React.FC<NewReleaseFormProps> = ({ onCreateRelease, onCancel }) => {
-  const [versionName, setVersionName] = useState('');
-
+const NewReleaseForm: React.FC<NewVersionFormProps> = ({ onCreateVersion, onCancel }) => {
+  const [inputValue, setInputValue] = useState<number | undefined>(undefined);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await onCreateRelease(versionName); // Kall funksjonen som faktisk oppretter release
-    console.log("response data comp", response) ;
-    setVersionName(''); // Tilbakestill inputfeltet etter opprettelse
+    if(!inputValue) return
+    await onCreateVersion(inputValue); 
   };
 
   return (
     <div className='card p-3 h-100'>
     <form onSubmit={handleSubmit}>
-      <h2>Opprett Ny Release</h2>
+      <h3>Opprett Ny Release</h3>
       <div className='d-flex gap-2 flex-row align-items-center'>
         <label>Versjonsnavn:</label>
         <input
           type="text"
-          value={versionName}
-          onChange={e => setVersionName(e.target.value)}
+          value={inputValue || ""} 
+          placeholder="YYYYMMDD"
+          onChange={(e) => setInputValue(Number(e.target.value))}
           required
         />
       <button className='btn btn-success' type="submit">Opprett</button>

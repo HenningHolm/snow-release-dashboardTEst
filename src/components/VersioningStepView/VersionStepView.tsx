@@ -1,33 +1,30 @@
 import React from 'react';
-import { ReleaseIdProps } from '../../types/commonTypes';
+import { VersionIdProps } from '../../types/commonTypes';
 import StepCreate from './Steps/Step1/StepCreate';
 import StepUploadNorskEks from './Steps/Step2/StepUploadNorskEks';
 import StepDerivate from './Steps/Step4/StepDerivate';
 import StepSmokeTest from './Steps/Step3/StepSmokeTest';
 import StepFinaleRelease from './Steps/Step5/StepFinalRelease';
 
-interface ReleaseStepViewProps extends ReleaseIdProps {
-  onCreateRelease: (releaseId: number) => void;
-  // Add other props if needed
-}
 
-const ReleaseStepView: React.FC<ReleaseStepViewProps> = ({ releaseId, onCreateRelease }) => {
+
+const ReleaseStepView: React.FC<VersionIdProps> = ({ versionId: releaseId }) => {
   return (
     <div className="accordion" id="accordionExample">
       <div className="accordion-item">
-        <StepCreate onCreateRelease={onCreateRelease} />
+        <StepCreate/>
       </div>
       <div className="accordion-item">
-        <StepUploadNorskEks releaseId={releaseId} />
+        <StepUploadNorskEks versionId={releaseId} />
       </div>
       <div className="accordion-item">
-        <StepSmokeTest releaseId={releaseId} />
+        <StepSmokeTest versionId={releaseId} />
       </div>
     <div className="accordion-item">
-        <StepDerivate releaseId={releaseId} />
+        <StepDerivate versionId={releaseId} />
     </div>
     <div className='accordion-item'>
-        <StepFinaleRelease releaseId={releaseId} />
+        <StepFinaleRelease versionId={releaseId} />
     </div>
     </div>
   );

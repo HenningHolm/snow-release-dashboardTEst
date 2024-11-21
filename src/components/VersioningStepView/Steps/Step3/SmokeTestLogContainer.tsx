@@ -1,6 +1,6 @@
 import React from "react";
 
-const ReleaseLogContainer: React.FC = () => {
+const SmokeTestLogContainer: React.FC = () => {
   return (
     <div>
         <h5>Logs</h5>
@@ -12,9 +12,11 @@ const ReleaseLogContainer: React.FC = () => {
                   {/* //make a list of logs */}
                   <div className="bg-light mb-2">
                     <div className="card-body">
-                      <h6 className="card-title">Jobb 1:</h6>
+                      <h6 className="card-title">Smoketest 1:</h6>
                       <p className="card-text mb-0">- Jobb ble startet</p>
                       <p className="card-text">- Import av refset ble startet</p>
+                      <p className="card-text">...</p>
+                      <p className="card-text">- Jobb ble avsluttet</p>
 
                     </div>
                   </div>
@@ -26,4 +28,4 @@ const ReleaseLogContainer: React.FC = () => {
   );
 };
 
-export default ReleaseLogContainer;
+export default SmokeTestLogContainer;

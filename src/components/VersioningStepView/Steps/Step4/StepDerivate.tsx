@@ -1,9 +1,10 @@
 import React from 'react';
 import FileCategoryContainer from './FileCategoryContainer';
+import { VersionIdProps } from '../../../../types/commonTypes';
 
 const derivativePackets = ['LM', 'INC', 'FD'];
 
-const StepDerivate: React.FC<ReleaseIdProps> = ({ releaseId }) => {
+const StepDerivate: React.FC<VersionIdProps> = ({ versionId }) => {
   return (
     <>
       <h2 className="accordion-header">

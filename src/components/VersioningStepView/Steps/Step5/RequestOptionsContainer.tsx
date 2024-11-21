@@ -5,34 +5,9 @@ interface RequestOptionsProps {
   releaseId: string;
 }
 
-const RequestOptionsContainer: React.FC<RequestOptionsProps> = ({ isHistorical, releaseId }) => {
+const RequestOptionsContainer: React.FC<RequestOptionsProps> = ({ isHistorical }) => {
   return (
     <div>
-        <div className="mb-3">
-            <h5>Inputs</h5> 
-            <div className="p-3 card container">
-                <div className="row">
-            <div className="mb-3 col-6">
-                <label className="text-dark">Branch</label>
-                <input type="text" className="form-control" disabled value={"MAIN/SNOMEDCT-NO"}/>
-            </div>
-            <div className="mb-3 col-6">
-                <label className="text-dark">Shortname</label>
-                <input type="text" className="form-control" disabled value={"SNOMEDCT-NO"} />
-            </div>
-            </div>
-            <div className="row">
-            <div className="mb-3 col-6">
-                <label className="text-dark">Versjon</label>
-                <input type="text" className="form-control" disabled value={releaseId} />
-            </div>
-            <div className="mb-3 col-6">
-                <label className="text-dark">Jobbnavn</label>
-                <input type="text" className="form-control" disabled={isHistorical} />
-            </div>
-            </div>
-        </div>
-      </div>
       <div className="mb-3">
         <h5>Valgte pakker</h5>
         <div className="form-check bg-dark container p-2 card"> 
@@ -66,7 +41,8 @@ const RequestOptionsContainer: React.FC<RequestOptionsProps> = ({ isHistorical, 
             </div>
             </div>
         </div>
-        <button className="btn btn-success w-100 mt-2" disabled={isHistorical}>Utfør Smoketest</button>
+        <button className="btn btn-success w-100 mt-2" disabled={isHistorical}>Utfør Release</button>
+        <button className="btn btn-outline-dark w-100 mt-2" disabled={isHistorical}>Se logg</button>
     </div>
   );
 };

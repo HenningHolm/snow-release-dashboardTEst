@@ -1,17 +1,15 @@
 import React, { useState, ChangeEvent } from 'react';
-import { ReleaseIdProps } from '../../../../types/commonTypes';
+import { VersionIdProps } from '../../../../types/commonTypes';
 
-const StepUploadNorskEks: React.FC<ReleaseIdProps> = ({ releaseId }) => {
+const StepUploadNorskEks: React.FC<VersionIdProps> = ({ versionId: versionId }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  // Function to handle file change
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setSelectedFile(event.target.files[0]);
     }
   };
 
-  // Function to upload file
   const uploadFile = async () => {
     if (!selectedFile) {
       alert('Vennligst velg en fil før du laster opp!');

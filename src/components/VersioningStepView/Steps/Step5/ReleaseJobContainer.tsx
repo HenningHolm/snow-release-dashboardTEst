@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import RequestOptionsContainer from "../Step4/RequestOptionsContainer";
+
 import ReleaseLogContainer from "./ReleaseLogContainer";
+import RequestOptionsContainer from "./RequestOptionsContainer";
 
 interface ReleaseJobContainerProps {
   environment: string;
@@ -28,11 +29,8 @@ const ReleaseJobContainer: React.FC<ReleaseJobContainerProps> = ({ environment, 
         </div>
       </div>
         <div className="row">
-          <div className="col-8">
+          <div className="col-12">
             <RequestOptionsContainer releaseId={releaseId} isHistorical={isHistorical} />
-          </div>
-          <div className="col-4">
-            <ReleaseLogContainer />
           </div>
         </div>
       </div>

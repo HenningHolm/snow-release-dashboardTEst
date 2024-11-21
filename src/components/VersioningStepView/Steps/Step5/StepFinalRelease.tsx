@@ -1,8 +1,8 @@
 import { useState } from "react";
 import ReleaseJobContainer from "./ReleaseJobContainer";
-import { ReleaseIdProps } from "../../../../types/commonTypes";
+import { VersionIdProps } from "../../../../types/commonTypes";
 
-const StepSmokeTest: React.FC<ReleaseIdProps> = ({ releaseId }) => {
+const StepFinaleRelease: React.FC<VersionIdProps> = ({ versionId: releaseId }) => {
 
     const environment = [
         "DailyBuild",
@@ -21,16 +21,16 @@ const StepSmokeTest: React.FC<ReleaseIdProps> = ({ releaseId }) => {
                     className="accordion-button collapsed"
                     type="button"
                     data-bs-toggle="collapse"
-                    data-bs-target="#collapseThree"
+                    data-bs-target="#collapseFive"
                     aria-expanded="false"
-                    aria-controls="collapseThree"
+                    aria-controls="collapseFive"
                 >
-                    ⬜ Steg 3 - Smoke test
+                    ⬜ Steg 5 - Release
                 </button>
             </h2>
             <div
-        id="collapseThree"
-        className="accordion-collapse collapse show"
+        id="collapseFive"
+        className="accordion-collapse collapse"
         data-bs-parent="#accordionExample"
       >
         <div className="accordion-body d-flex flex-row gap-3">
@@ -64,4 +64,4 @@ const StepSmokeTest: React.FC<ReleaseIdProps> = ({ releaseId }) => {
     );
 }   
 
-export default StepSmokeTest;
+export default StepFinaleRelease;

@@ -1,79 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { StoreProvider } from './store/versionStore';
 import HistoryList from './components/HistoryList/HistoryList';
-import { createRelease, getReleases } from './services/apiService';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ReleaseStepView from './components/ReleaseStepView/ReleaseStepView';
-import { Release } from './types/commonTypes';
-
+import VersionStepView from './components/VersioningStepView/VersionStepView';
+import { useStoreContext } from './store/versionStore';
+import NewReleaseForm from './components/VersioningStepView/Steps/Step1/NewVersionForm';
 
 const App: React.FC = () => {
-  const [releases, setReleases] = useState<Release[]>([]);
-  const [selectedReleaseId, setSelectedReleaseId] = useState<number | undefined>(undefined);
+  return (
+    <StoreProvider>
+      <MainContent />
+    </StoreProvider>
+  );
+};
 
-  // const fetchData = async () => {
-  //   const data = await getReleases();
+const MainContent: React.FC = () => {
+  const { state, actions } = useStoreContext();
+  const { versions, selectedVersionId } = state;
+  const { selectVersion, createVersion } = actions;
+  const [currentView, setCurrentView] = useState<'releaseDetail' | 'newRelease'>('releaseDetail');
 
-  //   const releasesWithState = await Promise.all(
-  //     data.map(async (release: any) => {
-  //       try {
-  //         const stateData = await getBlobContent(release.versionName, 'state.json');
-  //         console.log("stateData", stateData);
-  //         return {
-  //           ...release,
-  //           state: stateData.releaseState || 'Ukjent',
-  //         };
-  //       } catch (error) {
-  //         console.error(`Feil ved henting av state.json for ${release.versionName}:`, error);
-  //         return {
-  //           ...release,
-  //           state: 'Ukjent',
-  //         };
-  //       }
-  //     })
-  //   );
-
-    const fetchData = async () => {
-    const data = await getReleases();
-    const releasesWithState = data;
-    releasesWithState.sort((a: Release, b: Release) => b.id - a.id);
-
-    setReleases(releasesWithState);
-    if (releasesWithState.length > 0) {
-      setSelectedReleaseId(releasesWithState[0].id);
-    }
+  const handleVersionSelect = (versionId: number) => {
+    selectVersion(versionId);
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
 
-  const handleReleaseSelect = (release: Release) => {
-    setSelectedReleaseId(release.id);
-  };
-
-  const handleReleaseCreate = async (versionName: string) => {
-    const newRelease = await createRelease(versionName);
-    if (newRelease !== undefined) {
-      await fetchData();
-      setSelectedReleaseId(newRelease.id);
-    }
+  const handleVersionCreate = async (versionName: number) => {
+    await createVersion(versionName);
+    setCurrentView('releaseDetail');
+    selectVersion(versionName);
   };
 
   return (
     <div className="container bg-light">
-    <div className="row bg-dark g-3 p-3">
+      <div className="row bg-dark g-3 p-3">
         <div className="col-md-3">
           <HistoryList
-            releases={releases}
-            onSelectRelease={handleReleaseSelect}
-            selectedReleaseId={selectedReleaseId}
+            versions={versions}
+            selectedVersionId={selectedVersionId}
+            onNewVersion={() => setCurrentView('newRelease')}
+            onSelectVersion={handleVersionSelect}
           />
         </div>
         <div className="col-md-9">
-          <ReleaseStepView
-            releaseId={selectedReleaseId}
-            onCreateRelease={handleReleaseCreate}
-          />
+          <h3 className='text-white'>Valgt versjon: {selectedVersionId}</h3>
+         {currentView === 'releaseDetail' && selectedVersionId && (
+          <VersionStepView
+            versionId={selectedVersionId}
+          />   )} 
+           {currentView === 'newRelease' && ( 
+            <NewReleaseForm onCreateVersion={handleVersionCreate} onCancel={()=> {setCurrentView("releaseDetail")}} />
+          )}
+            
         </div>
       </div>
     </div>
