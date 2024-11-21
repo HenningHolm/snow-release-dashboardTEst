@@ -5,14 +5,14 @@ import { Version, StoreActions, StoreState, NorskEkstensjon } from '../types/com
 
 export const useStore = (): [StoreState, StoreActions] => {
   const [versions, setVersions] = useState<Version[]>([]);
-  const [selectedVersion, setSelectedVersion] = useState<Version | undefined>(undefined);
+  const [selectedVersionId, setSelectedVersionId] = useState<number | undefined>(undefined);
   
   const loadVersions = async () => {
     const data = await getVersions();
     const sortedData = data.sort((a: Version, b: Version) => b.id - a.id);
     setVersions(sortedData);
-    if (sortedData.length > 0 && !selectedVersion) {
-       setSelectedVersion(sortedData[0]);
+    if (sortedData.length > 0 && !selectedVersionId) {
+       setSelectedVersionId(sortedData[0].id);
     }
     return sortedData;
   };
@@ -20,7 +20,7 @@ export const useStore = (): [StoreState, StoreActions] => {
   const selectVersion = (versionId: number) => {
     const selectVersion = versions.find((version) => version.id === versionId);
     if (selectVersion) {
-      setSelectedVersion(selectVersion);
+      setSelectedVersionId(versionId);
     }
   };
 
@@ -28,8 +28,8 @@ export const useStore = (): [StoreState, StoreActions] => {
     try {
       const response = await createNewVersion(versionName);
       if (response.containerName) {
-        const versionsArray = await loadVersions();
-        setSelectedVersion(versionsArray.find((version) => Number(version.id) === Number(response.containerName)));
+        await loadVersions();
+        setSelectedVersionId(versionName);
       } else {
         console.error('Feil ved opprettelse av release');
       }
@@ -42,18 +42,18 @@ export const useStore = (): [StoreState, StoreActions] => {
 
     const formData = new FormData();
     formData.append('file', file);
-    if (!selectedVersion) {
+    if (!selectedVersionId) {
       console.error('Ingen versjon valgt');
       return;
     }
-    const response = await uploadNorskEkstensjon(formData, selectedVersion?.id.toString());
+    const response = await uploadNorskEkstensjon(formData, selectedVersionId?.toString());
     const norskEkstensjon : NorskEkstensjon = {
       id: response.id, // generer en unik id for hver ekstensjon, litt usikker hva er best her.
       fileName: response.fileName,
       logfile: "",
       selected: true
     } 
-    selectedVersion?.processData?.norskEkstensjon.push(norskEkstensjon);
+    versions.find((version) => version.id === selectedVersionId)?.processData?.norskEkstensjon.push(norskEkstensjon);
   };
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export const useStore = (): [StoreState, StoreActions] => {
 
   const state: StoreState = {
     versions,
-    selectedVersion
+    selectedVersionId
 
   };
 

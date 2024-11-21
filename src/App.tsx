@@ -16,7 +16,7 @@ const App: React.FC = () => {
 
 const MainContent: React.FC = () => {
   const { state, actions } = useStoreContext();
-  const { versions, selectedVersion } = state;
+  const { versions, selectedVersionId } = state;
   const { selectVersion, createVersion } = actions;
   const [currentView, setCurrentView] = useState<'releaseDetail' | 'newRelease'>('releaseDetail');
 
@@ -36,16 +36,16 @@ const MainContent: React.FC = () => {
         <div className="col-md-3">
           <HistoryList
             versions={versions}
-            selectedVersionId={selectedVersion?.id}
+            selectedVersionId={selectedVersionId}
             onNewVersion={() => setCurrentView('newRelease')}
             onSelectVersion={handleVersionSelect}
           />
         </div>
         <div className="col-md-9">
-          <h3 className='text-white'>Valgt versjon: {selectedVersion?.id.toString()}</h3>
-         {currentView === 'releaseDetail' && selectedVersion?.id && (
+          <h3 className='text-white'>Valgt versjon: {selectedVersionId?.toString()}</h3>
+         {currentView === 'releaseDetail' && selectedVersionId && (
           <VersionStepView
-            versionId={selectedVersion.id}
+            versionId={selectedVersionId}
           />   )} 
            {currentView === 'newRelease' && ( 
             <NewReleaseForm onCreateVersion={handleVersionCreate} onCancel={()=> {setCurrentView("releaseDetail")}} />

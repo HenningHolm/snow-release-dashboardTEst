@@ -24,7 +24,7 @@ export interface StoreActions {
 
 export interface StoreState {
   versions: Version[];
-  selectedVersion: Version | undefined;
+  selectedVersionId: number | undefined;
 }
 
 
