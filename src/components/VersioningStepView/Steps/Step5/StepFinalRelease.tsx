@@ -54,7 +54,7 @@ const StepFinaleRelease: React.FC<VersionIdProps> = ({ versionId: releaseId }) =
         ))}
       </ul>
       {/* Passerer valgt miljø til ReleaseJobContainer */}
-      <ReleaseJobContainer releaseId={releaseId} environment={activeEnv} />
+      <ReleaseJobContainer versionId={releaseId} environment={activeEnv} />
     </div>
     </div>
         </div>

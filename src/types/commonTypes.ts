@@ -16,23 +16,23 @@ export enum VersionProcessStatus {
 }
 
 export interface StoreActions {
-  loadVersion: () => Promise<void>;
-  selectVersion: (versionId: number) => Promise<void>;
+  loadVersion: () => Promise<Version[]>;
+  selectVersion: (versionId: number) => void;
   createVersion: (versionId: number) => Promise<void>;
+  addNorskEkstensjon: (file: File) => Promise<void>;
 }
 
 export interface StoreState {
   versions: Version[];
-  selectedVersionId: number | undefined;
-  versionProcessDoc: VersionProcessDocument | null;
+  selectedVersion: Version | undefined;
 }
-  
+
 
 export interface VersionProcessDocument {
-  version: string;
+  version: number;
   timeCreated: string;
   status: VersionProcessStatus;
-  norskEkstensjon: any[];
+  norskEkstensjon: NorskEkstensjon[];
   smokeTest: any[];
   generateDerivative: {
     LM: any[];
@@ -43,3 +43,19 @@ export interface VersionProcessDocument {
 }
 
 
+// "norskEkstensjon": [
+//   {
+//       "id": "abc",
+//       "fileName": "SnomedCT_ManagedServiceNO_PRODUCTION_NO1000202_20240915T120000Z (6).zip",
+//       "logfile": "SnomedCT_ManagedServiceNO_PRODUCTION_NO1000202_20240915T120000Z (6).json",
+//       "selected": true
+//   }
+// ]
+
+
+export interface NorskEkstensjon {
+  id: string;
+  fileName: string;
+  logfile: string;
+  selected: boolean;
+}

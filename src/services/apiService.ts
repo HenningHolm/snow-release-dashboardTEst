@@ -5,8 +5,6 @@ const API_BASE_URL = 'http://localhost:7071/api';
 
 export const getVersions = async () => {
   const response = await axios.get(`${API_BASE_URL}/listContainers`);
-  console.log("response.data", response.data);
-
   // Hent status for hver container
   const versions: Version[] = await Promise.all(
     response.data.containers.map(async (container: any): Promise<Version> => {
@@ -32,7 +30,8 @@ export const getVersions = async () => {
       }
 
       return {
-        id: container.containerName,
+        // test zod
+        id: Number(container.containerName),
         blobs: container.blobs,
         state: status as VersionProcessStatus,
         processData: releaseProcessData
@@ -94,11 +93,32 @@ export const getBlobContent = async (containerName : number, blobName : string) 
   return await response.json();
 };
 
+export const uploadNorskEkstensjon = async (formData: FormData, containerName: string) => {
 
+  const response = await fetch(`${API_BASE_URL}/${containerName}/uploadFile`, {
+    method: 'POST',
+    body: formData
+  });
 
+  if (!response.ok) { 
+    throw new Error(`Feil ved lasting av fil: ${response.statusText}`);
+  }
+  return await response.json();
+};
 
+export const updateProcessData = async (containerName: number, blobName: string, data: VersionProcessDocument) => {
+  const response = await fetch(`${API_BASE_URL}/updateBlobContent?containerName=${containerName}&blobName=${blobName}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
 
-// export const getReleaseData = async (releaseId: string) => {
-//   const response = await axios.get(`${API_BASE_URL}/getContainerData/${releaseId}`);
-//   return response.data;
-// };
+  if (!response.ok) {
+    throw new Error(`Feil ved oppdatering av JSON-fil: ${response.statusText}`);
+  }
+
+  return await response.json();
+};
+

@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 
-import ReleaseLogContainer from "./ReleaseLogContainer";
 import RequestOptionsContainer from "./RequestOptionsContainer";
 
 interface ReleaseJobContainerProps {
   environment: string;
-  releaseId: string;
+  versionId: number;
 }
 
 
 
-const ReleaseJobContainer: React.FC<ReleaseJobContainerProps> = ({ environment, releaseId }) => {
+const ReleaseJobContainer: React.FC<ReleaseJobContainerProps> = ({ environment, versionId }) => {
   const [isHistorical, setIsHistorical] = useState(false);
 
   return (
@@ -30,7 +29,7 @@ const ReleaseJobContainer: React.FC<ReleaseJobContainerProps> = ({ environment, 
       </div>
         <div className="row">
           <div className="col-12">
-            <RequestOptionsContainer releaseId={releaseId} isHistorical={isHistorical} />
+            <RequestOptionsContainer versionId={versionId} isHistorical={isHistorical} />
           </div>
         </div>
       </div>

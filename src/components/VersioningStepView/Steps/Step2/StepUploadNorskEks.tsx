@@ -1,8 +1,13 @@
 import React, { useState, ChangeEvent } from 'react';
 import { VersionIdProps } from '../../../../types/commonTypes';
+import { useStoreContext } from '../../../../store/versionStore';
 
-const StepUploadNorskEks: React.FC<VersionIdProps> = ({ versionId: versionId }) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+const StepUploadNorskEks: React.FC<VersionIdProps> = () => {
+  const { actions } = useStoreContext();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const { addNorskEkstensjon } = actions;
+  
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -10,31 +15,19 @@ const StepUploadNorskEks: React.FC<VersionIdProps> = ({ versionId: versionId }) 
     }
   };
 
+
   const uploadFile = async () => {
     if (!selectedFile) {
       alert('Vennligst velg en fil før du laster opp!');
       return;
     }
-
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-
     try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        alert('Filen ble lastet opp!');
-      } else {
-        alert('Noe gikk galt under opplastningen.');
-      }
+         addNorskEkstensjon(selectedFile);
     } catch (error) {
-      console.error('Feil ved opplastning:', error);
-      alert('Kunne ikke laste opp filen.');
+      console.error('Feil under lasting av norsk ekstensjon:', error);
+    } 
     }
-  };
+  
 
   return (
     <>

@@ -16,7 +16,7 @@ const App: React.FC = () => {
 
 const MainContent: React.FC = () => {
   const { state, actions } = useStoreContext();
-  const { versions, selectedVersionId } = state;
+  const { versions, selectedVersion } = state;
   const { selectVersion, createVersion } = actions;
   const [currentView, setCurrentView] = useState<'releaseDetail' | 'newRelease'>('releaseDetail');
 
@@ -28,7 +28,6 @@ const MainContent: React.FC = () => {
   const handleVersionCreate = async (versionName: number) => {
     await createVersion(versionName);
     setCurrentView('releaseDetail');
-    selectVersion(versionName);
   };
 
   return (
@@ -37,16 +36,16 @@ const MainContent: React.FC = () => {
         <div className="col-md-3">
           <HistoryList
             versions={versions}
-            selectedVersionId={selectedVersionId}
+            selectedVersionId={selectedVersion?.id}
             onNewVersion={() => setCurrentView('newRelease')}
             onSelectVersion={handleVersionSelect}
           />
         </div>
         <div className="col-md-9">
-          <h3 className='text-white'>Valgt versjon: {selectedVersionId}</h3>
-         {currentView === 'releaseDetail' && selectedVersionId && (
+          <h3 className='text-white'>Valgt versjon: {selectedVersion?.id.toString()}</h3>
+         {currentView === 'releaseDetail' && selectedVersion?.id && (
           <VersionStepView
-            versionId={selectedVersionId}
+            versionId={selectedVersion.id}
           />   )} 
            {currentView === 'newRelease' && ( 
             <NewReleaseForm onCreateVersion={handleVersionCreate} onCancel={()=> {setCurrentView("releaseDetail")}} />
