@@ -1,25 +1,124 @@
 import axios from 'axios';
+import { Version, VersionProcessDocument, VersionProcessStatus } from '../types/commonTypes';
 
 const API_BASE_URL = 'http://localhost:7071/api';
 
-export const getReleases = async () => {
+export const getVersions = async () => {
   const response = await axios.get(`${API_BASE_URL}/listContainers`);
-  // Tilpass responsen basert på API-et ditt
-  return response.data.containers.map((container: any) => ({
-    id: container.containerName,
-    versionName: container.containerName,
-    // Legg til andre nødvendige felt
-  }));
+  // Hent status for hver container
+  const versions: Version[] = await Promise.all(
+    response.data.containers.map(async (container: any): Promise<Version> => {
+      let releaseProcessData: VersionProcessDocument | null = null;
+      // Hent releaseProcess.json for hver container
+      let status = 'Ukjent'; // Standardstatus hvis ikke funnet
+      try {
+        const releaseProcessResponse = await axios.get(
+          `${API_BASE_URL}/getBlobContent`,
+          {
+            params: {
+              containerName: container.containerName,
+              blobName: 'releaseProcess.json',
+            },
+          }
+        );
+        releaseProcessData = releaseProcessResponse.data;
+        if (releaseProcessData) {
+          status = releaseProcessData.status;
+        }
+      } catch (error) {
+        console.error(`Feil ved henting av releaseProcess.json for ${container.containerName}:`, error);
+      }
+
+      return {
+        // test zod
+        id: Number(container.containerName),
+        blobs: container.blobs,
+        state: status as VersionProcessStatus,
+        processData: releaseProcessData
+        
+      };
+    })
+  );
+
+  return versions;
 };
 
-export const createRelease = async (versionName: string) => {
-  const response = await axios.post(`${API_BASE_URL}/createContainer`, { versionName });
-  // Tilpass responsen basert på API-et ditt
-  return {
-    id: response.data.containerName,
-    versionName: response.data.containerName,
-    // Legg til andre nødvendige felt
-  };
+
+export const createNewVersion = async (versionName: number): Promise<{ containerName: number | undefined }> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/createReleaseContainer`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ containerName: versionName }),
+    });
+  
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Feil ved opprettelse av release:", errorData.error);
+      throw new Error(`Feil ved opprettelse av release: ${errorData.error}`);
+    }
+  
+    console.log("response api service", response);  
+    const data = await response.json();
+    console.log("data api service", data);
+    return {
+      containerName: data.containerName
+    };
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return { containerName: undefined };
+  }
 };
 
-// Legg til flere funksjoner etter behov (f.eks. getRelease, triggerActions, etc.)
+// export const getProcessData = async (containerName: number) : Promise<VersionProcessDocument> => {
+//   const response = await axios.get(`${API_BASE_URL}/getContainerData/${containerName}&blobName=releaseProcess.json`);
+//   return response.data;
+// }
+
+export const getBlobContent = async (containerName : number, blobName : string) => {
+  const response = await fetch(`${API_BASE_URL}/getBlobContent?containerName=${containerName}&blobName=${blobName}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error(`Feil ved henting av JSON-fil: ${response.statusText}`);
+  }
+  console.log("response", response);
+
+  return await response.json();
+};
+
+export const uploadNorskEkstensjon = async (formData: FormData) => {
+    const response = await fetch(`${API_BASE_URL}/uploadFile`, {
+        method: 'POST',
+        body: formData
+    });
+
+    if (!response.ok) { 
+        const errorData = await response.json();
+        throw new Error(`Feil ved lasting av fil: ${errorData.error || response.statusText}`);
+    }
+    return await response.json();
+};
+
+export const updateProcessData = async (containerName: number, blobName: string, data: VersionProcessDocument) => {
+  const response = await fetch(`${API_BASE_URL}/updateBlobContent?containerName=${containerName}&blobName=${blobName}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    throw new Error(`Feil ved oppdatering av JSON-fil: ${response.statusText}`);
+  }
+
+  return await response.json();
+};
+

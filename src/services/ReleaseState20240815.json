@@ -1,0 +1,82 @@
+{
+    "version": "20240815",
+    "timeCreated": "2023-08-30T15:00:00Z",
+    "status": "Opprettet",
+
+    "norskEkstensjon": [
+        {
+            "id": "abc",
+            "fileName": "SnomedCT_ManagedServiceNO_PRODUCTION_NO1000202_20240915T120000Z (6).zip",
+            "logfile": "SnomedCT_ManagedServiceNO_PRODUCTION_NO1000202_20240915T120000Z (6).json",
+            "selected": true
+        }
+    ],
+    "smokeTest": [
+        {
+            "id": 1,
+            "norskEkstensjonId": "abc",
+            "timeExecuted": "2023-08-30T15:00:00Z",
+            "status": "SUCCESS",
+            "logFile": "smokeTest-08585258189921908774209033046CU00-20240815.json"
+        }],
+
+        "generateDerivative": {
+            "LM": [
+                {
+                    "id": "xx",
+                    "timeExecuted": "2023-08-30T15:00:00Z",
+                    "selected": true,
+                    "status": "SUCCESS",
+                    "outputFile": "LM-08585258189921908774209033046CU00-20240815.zip",
+                    "logFile": "LM...."
+                }
+            ],
+            "INC": [
+                {
+                    "id": "yy",
+                    "timeExecuted": "2023-08-30T15:00:00Z",
+                    "selected": true,
+                    "status": "SUCCESS",
+                    "outputFile": "INC-08585258189921908774209033046CU00-20240815.zip",
+                    "logArray": [
+                        {
+                            "timestamp": "2023-08-30T15:00:00Z",
+                            "log": "Log message 1, INC"
+                        },
+                        {
+                            "timestamp": "2023-08-30T15:00:00Z",
+                            "log": "Log message 2, INC"
+                        }
+                    ]
+                }
+            ],
+            "FD": [
+                {
+                    "id": 1,
+                    "timeExecuted": "2023-08-30T15:00:00Z",
+                    "selected": true,
+                    "status": "SUCCESS",
+                    "outputFile": "FD-08585258189921908774209033046CU00-20240815.zip",
+                    "logArray": [
+                        {
+                            "timestamp": "2023-08-30T15:00:00Z",
+                            "log": "Log message 1, FD"
+                        },
+                        {
+                            "timestamp": "2023-08-30T15:00:00Z",
+                            "log": "Log message 2, FD"
+                        }
+                    ]
+                }
+            ]
+        },
+        "releases": //Step 4
+            {
+                "DailyBuild": [],
+                "Demo": [],
+                "SLV-Prod":[],
+                "SLV-Test":[],
+                "Prod":[]
+              
+            }
+}

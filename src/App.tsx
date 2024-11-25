@@ -1,79 +1,62 @@
-// App.tsx
-import React, { useState, useEffect } from 'react';
-import ReleaseList from './components/HistoryList/HistoryList';
-import NewReleaseForm from './components/NewReleaseForm';
-import { getReleases, createRelease } from './services/apiService';
+import React, { useState } from 'react';
+import { StoreProvider } from './store/versionStore';
+import HistoryList from './components/HistoryList/HistoryList';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ReleaseOverview from './components/ReleaseOverview/ReleaseOverview';
-interface Release {
-  id: string;
-  versionName: string;
-  // Andre relevante felter
-}
+import VersionStepView from './components/VersioningStepView/VersionStepView';
+import { useStoreContext } from './store/versionStore';
+import NewReleaseForm from './components/VersioningStepView/Steps/Step1/NewVersionForm';
+import ProcessDataOutput from './components/ProcessDataOutput';
 
 const App: React.FC = () => {
-  const [releases, setReleases] = useState<Release[]>([]);
-  const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
+  return (
+    <StoreProvider>
+      <MainContent />
+    </StoreProvider>
+  );
+};
+
+const MainContent: React.FC = () => {
+  const { state, actions } = useStoreContext();
+  const { versions, selectedVersionId } = state;
+  const { selectVersion, createVersion } = actions;
   const [currentView, setCurrentView] = useState<'releaseDetail' | 'newRelease'>('releaseDetail');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getReleases();
-      setReleases(data);
-      if (data.length > 0) {
-        setSelectedRelease(data[0]);
-      }
-    };
-    fetchData();
-  }, []);
+  const handleVersionSelect = (versionId: number) => {
+    selectVersion(versionId);
+  };
 
-  const handleReleaseSelect = (release: Release) => {
-    setSelectedRelease(release);
+
+  const handleVersionCreate = async (versionName: number) => {
+    await createVersion(versionName);
     setCurrentView('releaseDetail');
-  };
-
-  const handleNewReleaseClick = () => {
-    setSelectedRelease(null); // Fjern markering av valgt release
-    setCurrentView('newRelease');
-  };
-
-  const handleReleaseCreate = async (versionName: string) => {
-    // ... (opprettelse av ny release)
-  };
-
-  const handleBackToList = () => {
-    setCurrentView('releaseDetail');
-    if (releases.length > 0) {
-      setSelectedRelease(releases[0]);
-    }
   };
 
   return (
-    <div className="container">
-      <div className="row">
-        {/* Venstre side (Liste) */}
+    <div className="container bg-light">
+      <div className="row bg-dark g-3 p-3">
         <div className="col-md-3">
-          <ReleaseList
-            releases={releases}
-            onSelectRelease={handleReleaseSelect}
-            onNewRelease={handleNewReleaseClick}
-            selectedRelease={selectedRelease}
-            currentView={currentView}
+          <HistoryList
+            versions={versions}
+            selectedVersionId={selectedVersionId}
+            onNewVersion={() => setCurrentView('newRelease')}
+            onSelectVersion={handleVersionSelect}
           />
+        <ProcessDataOutput />
         </div>
-        {/* Høyre side (Detaljer eller Ny Release) */}
         <div className="col-md-9">
-          {currentView === 'releaseDetail' && selectedRelease && (
-            <ReleaseOverview release={selectedRelease} />
+          <h3 className='text-white'>Valgt versjon: {selectedVersionId?.toString()}</h3>
+         {currentView === 'releaseDetail' && selectedVersionId && (
+          <VersionStepView
+            versionId={selectedVersionId}
+          />   )} 
+           {currentView === 'newRelease' && ( 
+            <NewReleaseForm onCreateVersion={handleVersionCreate} onCancel={()=> {setCurrentView("releaseDetail")}} />
           )}
-          {currentView === 'newRelease' && (
-            <NewReleaseForm onCreateRelease={handleReleaseCreate} onCancel={handleBackToList} />
-          )}
+            
         </div>
       </div>
     </div>
   );
 };
-
 
 export default App;

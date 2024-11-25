@@ -1,56 +1,46 @@
-// ReleaseList.tsx
+// HistoryList.tsx
 import React from 'react';
+import { Version } from '../../types/commonTypes';
 
-interface Release {
-  id: string;
-  versionName: string;
-  // Andre relevante felter
+interface VersionListProps {
+  versions: Version[];
+  onSelectVersion: (versionId: number) => void;
+  onNewVersion: () => void;
+  selectedVersionId: number | undefined;
 }
 
-interface ReleaseListProps {
-  releases: Release[];
-  onSelectRelease: (release: Release) => void;
-  onNewRelease: () => void;
-  selectedRelease: Release | null;
-  currentView: 'releaseDetail' | 'newRelease';
-}
-
-const ReleaseList: React.FC<ReleaseListProps> = ({
-  releases,
-  onSelectRelease,
-  onNewRelease,
-  selectedRelease,
-  currentView,
+const HistoryList: React.FC<VersionListProps> = ({
+  versions,
+  onSelectVersion,
+  onNewVersion: onNewVersion,
+  selectedVersionId: selectedVersionId
 }) => {
   return (
     <div className='card p-3 d-flex flex-column justify-content-between'>
-
       <div className="list-group">
-      <h5>Releaseversjoner:</h5>
-        {releases.map((release, i) => (
+        <h5>Releaseversjoner:</h5>
+        {versions.map((version) => (
           <button
-            key={release.id}
+            key={version.id}
             type="button"
             className={`list-group-item list-group-item-action ${
-              selectedRelease && selectedRelease.id === release.id ? 'active' : ''
+              selectedVersionId == version.id ? 'active' : ''
             }`}
-            onClick={() => onSelectRelease(release)}
+            onClick={() => onSelectVersion(version.id)}
           >
-            {release.versionName} { i === 0 ? ' - Gyldig' : '- Utgått' }
+            {version.id} - {version.state}
           </button>
         ))}
       </div>
       <button
         type="button"
-        className={`btn btn-success mt-3 btn-block ${
-          currentView === 'newRelease' ? 'active' : ''
-        }`}
-        onClick={onNewRelease}
+        className={"btn btn-success mt-3 btn-block"}
+        onClick={onNewVersion}
       >
-        Opprett ny release
+        Ny release
       </button>
     </div>
   );
 };
 
-export default ReleaseList;
+export default HistoryList;
