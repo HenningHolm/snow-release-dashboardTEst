@@ -33,24 +33,10 @@ export interface VersionProcessDocument {
   timeCreated: string;
   status: VersionProcessStatus;
   norskEkstensjon: NorskEkstensjon[];
-  smokeTest: any[];
-  generateDerivative: {
-    LM: any[];
-    INC: any[];
-    FD: any[];
-  };
-  releases: any[];
+  smokeTest: SmokeTest[];
+  generateDerivative: GenerateDerivative;
+  releases: Release[];
 }
-
-
-// "norskEkstensjon": [
-//   {
-//       "id": "abc",
-//       "fileName": "SnomedCT_ManagedServiceNO_PRODUCTION_NO1000202_20240915T120000Z (6).zip",
-//       "logfile": "SnomedCT_ManagedServiceNO_PRODUCTION_NO1000202_20240915T120000Z (6).json",
-//       "selected": true
-//   }
-// ]
 
 
 export interface NorskEkstensjon {
@@ -58,4 +44,20 @@ export interface NorskEkstensjon {
   fileName: string;
   logfile: string;
   selected: boolean;
+}
+
+export interface SmokeTest {
+  id: string;
+  logfile: string;
+}
+
+export interface GenerateDerivative {
+  LM: {id: string, logfile: string }[];
+  INC: {id: string, logfile: string }[];
+  FD: {id: string, logfile: string }[];
+}
+
+export interface Release {
+  id: string;
+  logfile: string;
 }

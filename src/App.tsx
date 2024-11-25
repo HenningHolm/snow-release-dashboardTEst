@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import VersionStepView from './components/VersioningStepView/VersionStepView';
 import { useStoreContext } from './store/versionStore';
 import NewReleaseForm from './components/VersioningStepView/Steps/Step1/NewVersionForm';
+import ProcessDataOutput from './components/ProcessDataOutput';
 
 const App: React.FC = () => {
   return (
@@ -40,6 +41,7 @@ const MainContent: React.FC = () => {
             onNewVersion={() => setCurrentView('newRelease')}
             onSelectVersion={handleVersionSelect}
           />
+        <ProcessDataOutput />
         </div>
         <div className="col-md-9">
           <h3 className='text-white'>Valgt versjon: {selectedVersionId?.toString()}</h3>

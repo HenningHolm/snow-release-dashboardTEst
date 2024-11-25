@@ -2,7 +2,7 @@ import { useState } from "react";
 import ReleaseJobContainer from "./ReleaseJobContainer";
 import { VersionIdProps } from "../../../../types/commonTypes";
 
-const StepFinaleRelease: React.FC<VersionIdProps> = ({ versionId: releaseId }) => {
+const StepFinaleRelease: React.FC<VersionIdProps> = ({ versionId }) => {
 
     const environment = [
         "DailyBuild",
@@ -54,7 +54,7 @@ const StepFinaleRelease: React.FC<VersionIdProps> = ({ versionId: releaseId }) =
         ))}
       </ul>
       {/* Passerer valgt miljø til ReleaseJobContainer */}
-      <ReleaseJobContainer versionId={releaseId} environment={activeEnv} />
+      <ReleaseJobContainer versionId={versionId} environment={activeEnv} />
     </div>
     </div>
         </div>

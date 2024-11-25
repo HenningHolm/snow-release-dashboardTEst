@@ -5,12 +5,15 @@ import StepUploadNorskEks from './Steps/Step2/StepUploadNorskEks';
 import StepDerivate from './Steps/Step4/StepDerivate';
 import StepSmokeTest from './Steps/Step3/StepSmokeTest';
 import StepFinaleRelease from './Steps/Step5/StepFinalRelease';
+import Summary from './Steps/Summary/Summary';
+
 
 
 
 const ReleaseStepView: React.FC<VersionIdProps> = ({ versionId: releaseId }) => {
   return (
-    <div className="accordion" id="accordionExample">
+    <div>
+    <div className="accordion" id="accordionReleaseSteps">
       <div className="accordion-item">
         <StepCreate/>
       </div>
@@ -26,6 +29,9 @@ const ReleaseStepView: React.FC<VersionIdProps> = ({ versionId: releaseId }) => 
     <div className='accordion-item'>
         <StepFinaleRelease versionId={releaseId} />
     </div>
+    </div>
+    <br />
+    <Summary/>
     </div>
   );
 };

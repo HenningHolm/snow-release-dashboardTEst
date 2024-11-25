@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createNewVersion, getVersions, uploadNorskEkstensjon as uploadNorskEkstensjon } from '../services/apiService';
 import { Version, StoreActions, StoreState, NorskEkstensjon } from '../types/commonTypes';
+import { ProcessDataUpdate, updateProcessData } from '../utils/processDataUtils';
 
 
 export const useStore = (): [StoreState, StoreActions] => {
@@ -8,6 +9,7 @@ export const useStore = (): [StoreState, StoreActions] => {
   const [selectedVersionId, setSelectedVersionId] = useState<number | undefined>(undefined);
   
   const loadVersions = async () => {
+
     const data = await getVersions();
     const sortedData = data.sort((a: Version, b: Version) => b.id - a.id);
     setVersions(sortedData);
@@ -22,6 +24,10 @@ export const useStore = (): [StoreState, StoreActions] => {
     if (selectVersion) {
       setSelectedVersionId(versionId);
     }
+    else {
+      console.error(`Versjon med id ${versionId} ble ikke funnet.`);
+      alert(`Versjon med id ${versionId} ble ikke funnet.`);
+    }
   };
 
   const createRelease = async (versionName: number) => {
@@ -29,32 +35,61 @@ export const useStore = (): [StoreState, StoreActions] => {
       const response = await createNewVersion(versionName);
       if (response.containerName) {
         await loadVersions();
-        setSelectedVersionId(versionName);
+        setSelectedVersionId(Number(response.containerName));
       } else {
         console.error('Feil ved opprettelse av release');
+        alert('Feil ved opprettelse av release. Vennligst prøv igjen.');
       }
     } catch (error) {
       console.error('Feil ved opprettelse av release:', error);
+      alert('Feil ved opprettelse av release. Vennligst prøv igjen.');
     }
   };
-
-  const addNorskEkstensjon = async (file : File) => {
+  const addNorskEkstensjon = async (file: File) => {
+    if (!selectedVersionId) {
+      console.error('Ingen versjon valgt');
+      alert('Ingen versjon valgt. Vennligst velg en versjon før du laster opp.');
+      return;
+    }
 
     const formData = new FormData();
     formData.append('file', file);
-    if (!selectedVersionId) {
-      console.error('Ingen versjon valgt');
-      return;
+    formData.append('containerName', selectedVersionId.toString());
+
+    try {
+      const response = await uploadNorskEkstensjon(formData);
+
+      // Valider responsen
+      if (!response || !response.id || !response.fileName) {
+        throw new Error('Ugyldig respons fra serveren.');
+      }
+
+      const norskEkstensjon: NorskEkstensjon = {
+        id: response.id, // Sørg for at ID-en er unik
+        fileName: response.fileName,
+        logfile: "",
+        selected: true,
+      };
+
+      // Finn den aktuelle versjonen
+      const currentVersion = versions.find((version) => version.id === selectedVersionId);
+      if (currentVersion) {
+        const updatedVersion = updateProcessData(currentVersion, { norskEkstensjon: [norskEkstensjon] } as ProcessDataUpdate);
+        setVersions((prevVersions) =>
+          prevVersions.map((version) =>
+            version.id === selectedVersionId ? updatedVersion : version
+          )
+        );
+      }
+
+      // Tilbakemelding til brukeren
+      alert('Norsk ekstensjon lastet opp suksessfullt!');
+    } catch (error) {
+      console.error('Feil under lasting av norsk ekstensjon:', error);
+      alert('Feil under opplasting av norsk ekstensjon. Vennligst prøv igjen.');
     }
-    const response = await uploadNorskEkstensjon(formData, selectedVersionId?.toString());
-    const norskEkstensjon : NorskEkstensjon = {
-      id: response.id, // generer en unik id for hver ekstensjon, litt usikker hva er best her.
-      fileName: response.fileName,
-      logfile: "",
-      selected: true
-    } 
-    versions.find((version) => version.id === selectedVersionId)?.processData?.norskEkstensjon.push(norskEkstensjon);
   };
+
 
   useEffect(() => {
     loadVersions();
@@ -66,7 +101,6 @@ export const useStore = (): [StoreState, StoreActions] => {
   const state: StoreState = {
     versions,
     selectedVersionId
-
   };
 
   const actions: StoreActions = {

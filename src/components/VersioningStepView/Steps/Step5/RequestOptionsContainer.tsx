@@ -5,7 +5,7 @@ interface RequestOptionsProps {
   versionId: number;
 }
 
-const RequestOptionsContainer: React.FC<RequestOptionsProps> = ({ isHistorical, versionId }) => {
+const RequestOptionsContainer: React.FC<RequestOptionsProps> = ({ isHistorical }) => {
   const [norskEkstensjon, setNorskEkstensjon] = useState<boolean>(true);
   const [lmDerivat, setLmDerivat] = useState<boolean>(true);
   const [incDerivat, setIncDerivat] = useState<boolean>(true);

@@ -93,17 +93,17 @@ export const getBlobContent = async (containerName : number, blobName : string) 
   return await response.json();
 };
 
-export const uploadNorskEkstensjon = async (formData: FormData, containerName: string) => {
+export const uploadNorskEkstensjon = async (formData: FormData) => {
+    const response = await fetch(`${API_BASE_URL}/uploadFile`, {
+        method: 'POST',
+        body: formData
+    });
 
-  const response = await fetch(`${API_BASE_URL}/${containerName}/uploadFile`, {
-    method: 'POST',
-    body: formData
-  });
-
-  if (!response.ok) { 
-    throw new Error(`Feil ved lasting av fil: ${response.statusText}`);
-  }
-  return await response.json();
+    if (!response.ok) { 
+        const errorData = await response.json();
+        throw new Error(`Feil ved lasting av fil: ${errorData.error || response.statusText}`);
+    }
+    return await response.json();
 };
 
 export const updateProcessData = async (containerName: number, blobName: string, data: VersionProcessDocument) => {

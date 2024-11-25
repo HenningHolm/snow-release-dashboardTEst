@@ -33,10 +33,8 @@ const StepSmokeTest: React.FC<VersionIdProps> = ({ versionId }) => {
         data-bs-parent="#accordionExample"
       >
         <div className="accordion-body d-flex flex-row gap-3">
-            <div className="container p-3 rounded">
 
       <SmokeTestJobContainer versionId={versionId}/>
-    </div>
     </div>
         </div>
 

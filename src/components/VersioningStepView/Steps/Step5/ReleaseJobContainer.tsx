@@ -16,10 +16,11 @@ const ReleaseJobContainer: React.FC<ReleaseJobContainerProps> = ({ environment, 
     <div className=" p-3 bg-light border border-1 container">
       <div className="row mb-3">
         <div className="col-10">
-          <h4>Smoketest - {environment} {isHistorical ? "(Historisk)" : ""}</h4>
+          <h4>{environment} {isHistorical ? "(Historisk)" : ""}</h4>
         </div>
         <div className="col-2">
           <button
+            disabled
             className={`btn ${isHistorical ? "btn-secondary" : "btn-primary"}`}
             onClick={() => setIsHistorical(false)}
           >

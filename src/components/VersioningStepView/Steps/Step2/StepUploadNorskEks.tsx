@@ -2,32 +2,34 @@ import React, { useState, ChangeEvent } from 'react';
 import { VersionIdProps } from '../../../../types/commonTypes';
 import { useStoreContext } from '../../../../store/versionStore';
 
-
 const StepUploadNorskEks: React.FC<VersionIdProps> = () => {
   const { actions } = useStoreContext();
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
   const { addNorskEkstensjon } = actions;
-  
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setSelectedFile(event.target.files[0]);
     }
   };
-
-
   const uploadFile = async () => {
     if (!selectedFile) {
       alert('Vennligst velg en fil før du laster opp!');
       return;
     }
+    setIsUploading(true);
     try {
-         addNorskEkstensjon(selectedFile);
+      await addNorskEkstensjon(selectedFile);
+      alert('Fil lastet opp suksessfullt!');
+      setSelectedFile(null);
     } catch (error) {
       console.error('Feil under lasting av norsk ekstensjon:', error);
-    } 
+      alert('Feil under opplasting av fil.');
+    } finally {
+      setIsUploading(false);
     }
-  
+  };
 
   return (
     <>
@@ -63,15 +65,15 @@ const StepUploadNorskEks: React.FC<VersionIdProps> = () => {
               className="btn btn-dark"
               type="button"
               onClick={uploadFile}
-              disabled={!selectedFile}
+              disabled={!selectedFile || isUploading}
             >
-              Last opp
+              {isUploading ? 'Laster opp...' : 'Last opp'}
             </button>
           </div>
         </div>
       </div>
     </>
   );
-}
+};
 
 export default StepUploadNorskEks;
